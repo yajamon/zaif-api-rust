@@ -5,3 +5,5 @@ authors = ["yajamon <yajamon.tatsuki@gmail.com>"]
 
 [dependencies]
 api_kit = "0.2.0"
+hyper = "0.9.10"
+serde_json = "0.8"
