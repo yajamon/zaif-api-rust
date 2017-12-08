@@ -1,5 +1,5 @@
 [package]
-name = "zaif_api"
+name = "zaif-api"
 version = "0.1.0"
 authors = ["yajamon <yajamon.tatsuki@gmail.com>"]
 
