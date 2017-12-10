@@ -23,8 +23,6 @@ impl Currencies {
         let uri = format!("https://api.zaif.jp/api/1/currencies/{}", name).parse().unwrap();
 
         let work = client.get(uri).and_then(|res| {
-            println!("Response: {}", res.status());
-
             res.body().for_each(|chunk| {
                 io::stdout()
                     .write_all(&chunk)
