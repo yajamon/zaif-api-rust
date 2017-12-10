@@ -13,14 +13,14 @@ pub struct Currencies {
 }
 
 impl Currencies {
-    pub fn get(&self) {
+    pub fn get(&self, name: &str) {
         let mut core = Core::new().unwrap();
         let handle = core.handle();
         let client = Client::configure()
             .connector(HttpsConnector::new(4, &handle).unwrap())
             .build(&handle);
 
-        let uri = "https://api.zaif.jp/api/1/currencies/btc".parse().unwrap();
+        let uri = format!("https://api.zaif.jp/api/1/currencies/{}", name).parse().unwrap();
 
         let work = client.get(uri).and_then(|res| {
             println!("Response: {}", res.status());
