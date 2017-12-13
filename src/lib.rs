@@ -1,3 +1,5 @@
+pub mod public_api;
+
 #[cfg(test)]
 mod tests {
     #[test]
