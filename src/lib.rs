@@ -1,4 +1,5 @@
 pub mod public_api;
+pub mod trade_api;
 
 #[cfg(test)]
 mod tests {
