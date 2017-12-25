@@ -1,17 +1,10 @@
-extern crate futures;
-extern crate hyper;
-extern crate hyper_tls;
-extern crate tokio_core;
+extern crate reqwest;
 extern crate chrono;
 extern crate openssl;
 
 use std::io::{self, Write};
-use self::futures::{Future, Stream};
-use self::hyper::Client;
-use self::hyper::{Method, Request, StatusCode};
-use self::hyper_tls::HttpsConnector;
-use self::tokio_core::reactor::Core;
-use self::chrono::{DateTime, Utc};
+use self::reqwest::header::Headers;
+use self::chrono::Utc;
 use self::openssl::hash::MessageDigest;
 use self::openssl::pkey::PKey;
 use self::openssl::sign::Signer;
@@ -29,14 +22,7 @@ impl GetInfo2 {
         }
     }
     pub fn post(&self) {
-        let mut core = Core::new().unwrap();
-        let handle = core.handle();
-        let client = Client::configure()
-            .connector(HttpsConnector::new(4, &handle).unwrap())
-            .build(&handle);
 
-        let uri = "https://api.zaif.jp/tapi".parse().unwrap();
-        let mut req = Request::new(Method::Post, uri);
 
         // body生成
         let now = Utc::now();
@@ -59,21 +45,19 @@ impl GetInfo2 {
         // println!("Body: {}", body);
         // println!("Sign: {}", sign);
 
-        req.headers_mut().set_raw("Key", self.api_key.as_str());
-        req.headers_mut().set_raw("Sign", sign.as_str());
-        req.set_body(body);
+        let mut headers = Headers::new();
 
-        let work = client.request(req).and_then(|res| {
-            if res.status() != StatusCode::Ok {
-                panic!("Response error status: {}", res.status());
-            }
-            res.body().for_each(|chunk| {
-                io::stdout()
-                    .write_all(&chunk)
-                    .map(|_| ())
-                    .map_err(From::from)
-            })
-        });
-        core.run(work).unwrap();
+        headers.set_raw("Key", self.api_key.as_str());
+        headers.set_raw("Sign", sign.as_str());
+
+        let client = reqwest::Client::new();
+        let uri = "https://api.zaif.jp/tapi";
+        let mut res = client.post(uri)
+            .headers(headers)
+            .body(body)
+            .send().unwrap();
+        let res_body = res.text().unwrap();
+
+        io::stdout().write(res_body.as_bytes()).unwrap();
     }
 }
