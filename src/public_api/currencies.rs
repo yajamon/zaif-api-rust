@@ -1,19 +1,13 @@
 extern crate reqwest;
 
-use std::io::{self, Write};
-
-pub struct Currencies {
-}
+pub struct Currencies {}
 
 impl Currencies {
-    pub fn get(&self, name: &str) {
-
+    pub fn get(&self, name: &str) -> reqwest::Result<String> {
         let uri = format!("https://api.zaif.jp/api/1/currencies/{}", name);
-        let mut resp = reqwest::get(uri.as_str()).unwrap();
+        let mut resp = reqwest::get(uri.as_str())?;
 
         assert!(resp.status().is_success());
-        let body = resp.text().unwrap();
-
-        io::stdout().write(body.as_bytes()).unwrap();
+        resp.text()
     }
 }
