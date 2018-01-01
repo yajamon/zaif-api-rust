@@ -1,11 +1,11 @@
 extern crate zaif_api;
 
-use zaif_api::public_api::{Currencies, CurrencyPairs};
+use zaif_api::public_api::*;
 use zaif_api::trade_api::get_info2::GetInfo2;
 
 fn main() {
-    // let api = Currencies {};
-    // println!("{}", api.get("btc").unwrap());
+    let api = CurrenciesBuilder::new().name("btc").finalize();
+    println!("{}", api.exec().unwrap());
 
     let api = CurrencyPairs {};
     println!("{}", api.get("all").unwrap());
