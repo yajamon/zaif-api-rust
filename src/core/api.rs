@@ -5,7 +5,7 @@ pub struct Api {
 }
 
 impl Api {
-    fn exec(&self) -> reqwest::Result<String> {
+    pub fn exec(&self) -> reqwest::Result<String> {
         let mut resp = reqwest::get(self.uri.as_str())?;
 
         assert!(resp.status().is_success());
@@ -18,13 +18,13 @@ pub struct ApiBuilder {
 }
 
 impl ApiBuilder {
-    fn new() -> ApiBuilder {
+    pub fn new() -> ApiBuilder {
         ApiBuilder {
             uri: "".to_string(),
         }
     }
 
-    fn finalize(&self) -> Api {
+    pub fn finalize(&self) -> Api {
         Api {
             uri: self.uri.clone(),
         }
