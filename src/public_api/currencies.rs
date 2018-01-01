@@ -1,13 +1,19 @@
 extern crate reqwest;
 
+use core::*;
+
 pub struct Currencies {}
 
 impl Currencies {
     pub fn get(&self, name: &str) -> reqwest::Result<String> {
-        let uri = format!("https://api.zaif.jp/api/1/currencies/{}", name);
-        let mut resp = reqwest::get(uri.as_str())?;
+        self.exec(name)
+    }
 
-        assert!(resp.status().is_success());
-        resp.text()
+    pub fn exec(&self, name: &str) -> reqwest::Result<String> {
+        let api = ApiBuilder::new()
+            .uri(format!("https://api.zaif.jp/api/1/currencies/{}", name).as_str())
+            .finalize();
+
+        api.exec()
     }
 }
