@@ -24,6 +24,11 @@ impl ApiBuilder {
         }
     }
 
+    pub fn uri(&mut self, uri: &str) -> &mut ApiBuilder {
+        self.uri = uri.to_string();
+        self
+    }
+
     pub fn finalize(&self) -> Api {
         Api {
             uri: self.uri.clone(),
