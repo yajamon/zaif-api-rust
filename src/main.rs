@@ -1,7 +1,6 @@
 extern crate zaif_api;
 
-use zaif_api::public_api::currencies::Currencies;
-use zaif_api::public_api::currency_pairs::CurrencyPairs;
+use zaif_api::public_api::{Currencies, CurrencyPairs}
 use zaif_api::trade_api::get_info2::GetInfo2;
 
 fn main() {
