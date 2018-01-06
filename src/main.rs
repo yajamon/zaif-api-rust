@@ -7,8 +7,8 @@ fn main() {
     let api = CurrenciesBuilder::new().name("btc").finalize();
     println!("{}", api.exec().unwrap());
 
-    let api = CurrencyPairs {};
-    println!("{}", api.get("all").unwrap());
+    let api = CurrencyPairsBuilder::new().finalize();
+    println!("{}", api.exec().unwrap());
 
     // let api = GetInfo2::new("YOUR_API_KEY", "YOUR_API_SECRET");
     // api.post();
