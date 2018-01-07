@@ -7,4 +7,5 @@ mod access_key;
 #[derive(Copy, Clone)]
 pub enum Method {
     Get,
+    Post,
 }
