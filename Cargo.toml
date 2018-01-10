@@ -3,7 +3,7 @@ name = "zaif-api"
 version = "0.1.0"
 authors = ["yajamon <yajamon.tatsuki@gmail.com>"]
 
-licence-file = "LICENCE"
+license = "MIT"
 repository = "https://github.com/yajamon/zaif-api-rust.git"
 description = "Zaif API Wrapper"
 keywords = ["zaif", "wrapper"]
