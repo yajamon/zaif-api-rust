@@ -3,6 +3,11 @@ name = "zaif-api"
 version = "0.1.0"
 authors = ["yajamon <yajamon.tatsuki@gmail.com>"]
 
+licence-file = "LICENCE"
+repository = "https://github.com/yajamon/zaif-api-rust.git"
+description = "Zaif API Wrapper"
+keywords = ["zaif", "wrapper"]
+
 [dependencies]
 reqwest = "0.8.2"
 hyper-tls = "0.1.2"
