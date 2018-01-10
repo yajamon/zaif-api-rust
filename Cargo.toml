@@ -4,6 +4,7 @@ version = "0.1.1"
 authors = ["yajamon <yajamon.tatsuki@gmail.com>"]
 
 license = "MIT"
+readme = "README.md"
 repository = "https://github.com/yajamon/zaif-api-rust.git"
 description = "Zaif API Wrapper"
 keywords = ["zaif", "wrapper"]
