@@ -1,4 +1,4 @@
-# zaif-api-rust
+# zaif-api-rust [![Crates.io](https://img.shields.io/crates/v/zaif-api.svg)](https://crates.io/crates/zaif-api)
 Use Zaif-Api from Rust
 
 ## Description
