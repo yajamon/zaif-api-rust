@@ -18,7 +18,7 @@ fn main() {
     println!("{}", api.exec().unwrap());
 
     let access_key = AccessKey::new("YOUR_API_KEY", "YOUR_API_SECRET");
-    let api = GetInfo2::new(access_key.clone());
+    let api = GetInfo2Builder::new(access_key.clone()).finalize();
     println!("{}", api.exec().unwrap());
 
     let api = TradeBuilder::new(access_key.clone())
