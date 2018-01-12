@@ -29,6 +29,6 @@ fn main() {
         .finalize();
     println!("{}", api.exec().unwrap());
 
-    let api = ActiveOrdersBuilder::new(access_key.clone()).finalize();
+    let api = ActiveOrdersBuilder::new(access_key.clone()).currency_pair("zaif_jpy").finalize();
     println!("{}", api.exec().unwrap());
 }
