@@ -25,6 +25,8 @@ pub struct Trade {
     action: TradeAction,
     price: f32,
     amount: f32,
+    limit: Option<f32>,
+    comment: Option<String>,
 }
 
 impl Trade {
@@ -35,6 +37,12 @@ impl Trade {
         param.insert("action".to_string(), self.action.param_string());
         param.insert("price".to_string(), format!("{}", self.price));
         param.insert("amount".to_string(), format!("{}", self.amount));
+        if let Some(limit) = self.limit {
+            param.insert("limit".to_string(), format!("{}", limit));
+        }
+        if let Some(ref comment) = self.comment {
+            param.insert("comment".to_string(), format!("{}", comment.clone()));
+        }
 
         let api = ApiBuilder::new()
             .access_key(self.access_key.clone())
@@ -53,6 +61,8 @@ pub struct TradeBuilder {
     action: Option<TradeAction>,
     price: Option<f32>,
     amount: Option<f32>,
+    limit: Option<f32>,
+    comment: Option<String>,
 }
 
 impl TradeBuilder{
@@ -63,6 +73,8 @@ impl TradeBuilder{
             action: None,
             price: None,
             amount: None,
+            limit: None,
+            comment: None,
         }
     }
     pub fn currency_pair(&mut self, currency_pair: &str) -> &mut TradeBuilder {
@@ -81,6 +93,14 @@ impl TradeBuilder{
         self.amount = Some(amount);
         self
     }
+    pub fn limit(&mut self, limit: f32) -> &mut TradeBuilder {
+        self.limit = Some(limit);
+        self
+    }
+    pub fn comment(&mut self, comment: &str) -> &mut TradeBuilder {
+        self.comment = Some(comment.to_string());
+        self
+    }
     pub fn finalize(&self) -> Trade {
         Trade {
             access_key: self.access_key.clone(),
@@ -88,6 +108,8 @@ impl TradeBuilder{
             action: self.action.unwrap(),
             price: self.price.unwrap(),
             amount: self.amount.unwrap(),
+            limit: self.limit.clone(),
+            comment: self.comment.clone(),
         }
     }
 }
