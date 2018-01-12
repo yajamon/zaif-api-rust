@@ -1,4 +1,8 @@
 extern crate zaif_api;
+extern crate serde_json;
+
+use std::{thread, time};
+use serde_json::Value;
 
 use zaif_api::AccessKey;
 use zaif_api::public_api::*;
@@ -27,7 +31,21 @@ fn main() {
         .price(1.0)
         .amount(0.1)
         .finalize();
-    println!("{}", api.exec().unwrap());
+    match api.exec() {
+        Ok(res) => {
+            println!("{}", res);
+            let json:Value = serde_json::from_str(res.as_str()).unwrap();
+            let order_id = json["return"]["order_id"].as_u64().unwrap();
+            let api = CancelOrderBuilder::new(access_key.clone())
+                .order_id(order_id)
+                .currency_pair("zaif_jpy")
+                .finalize();
+            let wait_time = time::Duration::from_secs(5);
+            thread::sleep(wait_time);
+            println!("{}", api.exec().unwrap());
+        },
+        _ => return,
+    }
 
     let api = ActiveOrdersBuilder::new(access_key.clone()).currency_pair("zaif_jpy").finalize();
     println!("{}", api.exec().unwrap());
