@@ -1,12 +1,14 @@
 extern crate chrono;
 extern crate openssl;
 extern crate reqwest;
+extern crate serde_json;
 
 use self::reqwest::header::Headers;
 use self::chrono::Utc;
 use self::openssl::hash::MessageDigest;
 use self::openssl::pkey::PKey;
 use self::openssl::sign::Signer;
+use self::serde_json::{Value, Error};
 
 use std::collections::HashMap;
 
@@ -48,6 +50,13 @@ impl Api {
         let client = reqwest::Client::new();
         let uri = "https://api.zaif.jp/tapi";
         let mut res = client.post(uri).headers(headers).body(body).send().unwrap();
+
+        assert!(res.status().is_success());
+        let v:Value = res.json()?;
+        if v["success"].as_i64().unwrap() == 0 {
+            let msg = v["error"].as_str().unwrap();
+            panic!(msg.to_string());
+        }
 
         res.text()
     }
