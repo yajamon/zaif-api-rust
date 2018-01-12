@@ -49,6 +49,8 @@ impl Api {
         let uri = "https://api.zaif.jp/tapi";
         let mut res = client.post(uri).headers(headers).body(body).send().unwrap();
 
+        assert!(res.status().is_success());
+
         res.text()
     }
 
