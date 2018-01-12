@@ -28,4 +28,7 @@ fn main() {
         .amount(0.1)
         .finalize();
     println!("{}", api.exec().unwrap());
+
+    let api = ActiveOrdersBuilder::new(access_key.clone()).finalize();
+    println!("{}", api.exec().unwrap());
 }
