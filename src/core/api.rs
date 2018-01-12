@@ -52,13 +52,14 @@ impl Api {
         let mut res = client.post(uri).headers(headers).body(body).send().unwrap();
 
         assert!(res.status().is_success());
-        let v:Value = res.json()?;
+        let response_body = res.text().unwrap();
+        let v:Value = serde_json::from_str(response_body.as_str()).unwrap();
         if v["success"].as_i64().unwrap() == 0 {
             let msg = v["error"].as_str().unwrap();
             panic!(msg.to_string());
         }
 
-        res.text()
+        Ok(response_body)
     }
 
     fn create_body(&self) -> String {
