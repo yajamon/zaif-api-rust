@@ -1,6 +1,6 @@
 extern crate reqwest;
 
-use core::*;
+use public_api::PublicApi;
 
 pub struct Currencies {
     name: String,
@@ -8,11 +8,16 @@ pub struct Currencies {
 
 impl Currencies {
     pub fn exec(&self) -> reqwest::Result<String> {
-        let api = ApiBuilder::new()
-            .uri(format!("https://api.zaif.jp/api/1/currencies/{}", self.name).as_str())
-            .finalize();
+        <Self as PublicApi>::exec(&self)
+    }
+}
 
-        api.exec()
+impl PublicApi for Currencies {
+    fn action(&self) -> &str {
+        "currencies"
+    }
+    fn parameter(&self) -> &str {
+        self.name.as_str()
     }
 }
 
