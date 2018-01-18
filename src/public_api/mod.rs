@@ -1,3 +1,7 @@
+extern crate reqwest;
+
+use core::*;
+
 pub use self::currencies::*;
 pub use self::currency_pairs::*;
 pub use self::last_price::*;
