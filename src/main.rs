@@ -9,7 +9,7 @@ use zaif_api::public_api::*;
 use zaif_api::trade_api::*;
 
 fn main() {
-    let api = CurrenciesBuilder::new().name("btc").finalize();
+    let api = CurrenciesBuilder::new().name("btc".to_string()).finalize();
     println!("{}", api.exec().unwrap());
 
     let api = CurrencyPairsBuilder::new().finalize();

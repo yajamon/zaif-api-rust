@@ -6,7 +6,7 @@ macro_rules! builder {
             $( $attr_name : $attr_type ),*
         }
 
-        pub  struct $src_name {
+        pub struct $src_name {
             $( $attr_name : $attr_type ),*
         }
         impl $src_name {
