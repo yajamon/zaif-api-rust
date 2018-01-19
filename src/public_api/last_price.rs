@@ -27,17 +27,13 @@ pub struct LastPriceBuilder {
 
 impl LastPriceBuilder {
     pub fn new() -> LastPriceBuilder {
-        LastPriceBuilder {
-            currency_pair: "btc_jpy".to_string(),
-        }
+        LastPriceBuilder { currency_pair: "btc_jpy".to_string() }
     }
     pub fn currency_pair(&mut self, currency_pair: &str) -> &mut LastPriceBuilder {
         self.currency_pair = currency_pair.to_string();
         self
     }
     pub fn finalize(&self) -> LastPrice {
-        LastPrice {
-            currency_pair: self.currency_pair.clone(),
-        }
+        LastPrice { currency_pair: self.currency_pair.clone() }
     }
 }

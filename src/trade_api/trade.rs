@@ -10,8 +10,7 @@ pub enum TradeAction {
     Ask, // 売り
 }
 impl TradeAction {
-    fn param_string
-        (&self) -> String {
+    fn param_string(&self) -> String {
         match *self {
             TradeAction::Bid => "bid".to_string(),
             TradeAction::Ask => "ask".to_string(),
@@ -65,7 +64,7 @@ pub struct TradeBuilder {
     comment: Option<String>,
 }
 
-impl TradeBuilder{
+impl TradeBuilder {
     pub fn new(access_key: AccessKey) -> TradeBuilder {
         TradeBuilder {
             access_key: access_key,
@@ -113,4 +112,3 @@ impl TradeBuilder{
         }
     }
 }
-

@@ -9,7 +9,9 @@ pub struct Currencies {
 impl Currencies {
     pub fn exec(&self) -> reqwest::Result<String> {
         let api = ApiBuilder::new()
-            .uri(format!("https://api.zaif.jp/api/1/currencies/{}", self.name).as_str())
+            .uri(
+                format!("https://api.zaif.jp/api/1/currencies/{}", self.name).as_str(),
+            )
             .finalize();
 
         api.exec()
@@ -22,17 +24,13 @@ pub struct CurrenciesBuilder {
 
 impl CurrenciesBuilder {
     pub fn new() -> CurrenciesBuilder {
-        CurrenciesBuilder {
-            name: "all".to_string(),
-        }
+        CurrenciesBuilder { name: "all".to_string() }
     }
     pub fn name(&mut self, name: &str) -> &mut CurrenciesBuilder {
         self.name = name.to_string();
         self
     }
     pub fn finalize(&self) -> Currencies {
-        Currencies {
-            name: self.name.clone(),
-        }
+        Currencies { name: self.name.clone() }
     }
 }

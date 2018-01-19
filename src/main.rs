@@ -34,7 +34,7 @@ fn main() {
     match api.exec() {
         Ok(res) => {
             println!("{}", res);
-            let json:Value = serde_json::from_str(res.as_str()).unwrap();
+            let json: Value = serde_json::from_str(res.as_str()).unwrap();
             let order_id = json["return"]["order_id"].as_u64().unwrap();
             let api = CancelOrderBuilder::new(access_key.clone())
                 .order_id(order_id)
@@ -43,10 +43,12 @@ fn main() {
             let wait_time = time::Duration::from_secs(5);
             thread::sleep(wait_time);
             println!("{}", api.exec().unwrap());
-        },
+        }
         _ => return,
     }
 
-    let api = ActiveOrdersBuilder::new(access_key.clone()).currency_pair("zaif_jpy").finalize();
+    let api = ActiveOrdersBuilder::new(access_key.clone())
+        .currency_pair("zaif_jpy")
+        .finalize();
     println!("{}", api.exec().unwrap());
 }
