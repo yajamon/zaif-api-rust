@@ -16,7 +16,10 @@ impl CancelOrder {
         param.insert("method".to_string(), "cancel_order".to_string());
         param.insert("order_id".to_string(), format!("{}", self.order_id));
         if let Some(ref currency_pair) = self.currency_pair {
-            param.insert("currency_pair".to_string(), format!("{}", currency_pair.clone()));
+            param.insert(
+                "currency_pair".to_string(),
+                format!("{}", currency_pair.clone()),
+            );
         }
 
         let api = ApiBuilder::new()
@@ -36,7 +39,7 @@ pub struct CancelOrderBuilder {
     currency_pair: Option<String>,
 }
 
-impl CancelOrderBuilder{
+impl CancelOrderBuilder {
     pub fn new(access_key: AccessKey) -> CancelOrderBuilder {
         CancelOrderBuilder {
             access_key: access_key,

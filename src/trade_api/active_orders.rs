@@ -14,7 +14,10 @@ impl ActiveOrders {
         let param: &mut HashMap<String, String> = &mut HashMap::new();
         param.insert("method".to_string(), "active_orders".to_string());
         if let Some(ref currency_pair) = self.currency_pair {
-            param.insert("currency_pair".to_string(), format!("{}", currency_pair.clone()));
+            param.insert(
+                "currency_pair".to_string(),
+                format!("{}", currency_pair.clone()),
+            );
         }
 
         let api = ApiBuilder::new()
@@ -33,7 +36,7 @@ pub struct ActiveOrdersBuilder {
     currency_pair: Option<String>,
 }
 
-impl ActiveOrdersBuilder{
+impl ActiveOrdersBuilder {
     pub fn new(access_key: AccessKey) -> ActiveOrdersBuilder {
         ActiveOrdersBuilder {
             access_key: access_key,
