@@ -36,9 +36,10 @@ fn main() {
             println!("{}", res);
             let json: Value = serde_json::from_str(res.as_str()).unwrap();
             let order_id = json["return"]["order_id"].as_u64().unwrap();
-            let api = CancelOrderBuilder::new(access_key.clone())
+            let api = CancelOrderBuilder::new()
+                .access_key(access_key.clone())
                 .order_id(order_id)
-                .currency_pair("zaif_jpy")
+                .currency_pair(Some("zaif_jpy".to_string()))
                 .finalize();
             let wait_time = time::Duration::from_secs(5);
             thread::sleep(wait_time);
