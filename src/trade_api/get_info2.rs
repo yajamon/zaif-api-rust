@@ -4,9 +4,9 @@ use std::collections::HashMap;
 
 use core::*;
 
-pub struct GetInfo2 {
-    access_key: AccessKey,
-}
+builder!(GetInfo2Builder => GetInfo2 {
+    access_key: AccessKey = AccessKey::new("", "")
+});
 
 impl GetInfo2 {
     pub fn new(access_key: AccessKey) -> GetInfo2 {
@@ -27,15 +27,3 @@ impl GetInfo2 {
     }
 }
 
-pub struct GetInfo2Builder {
-    access_key: AccessKey,
-}
-
-impl GetInfo2Builder {
-    pub fn new(access_key: AccessKey) -> GetInfo2Builder {
-        GetInfo2Builder { access_key: access_key }
-    }
-    pub fn finalize(&self) -> GetInfo2 {
-        GetInfo2 { access_key: self.access_key.clone() }
-    }
-}
