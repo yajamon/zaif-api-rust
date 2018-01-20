@@ -47,8 +47,9 @@ fn main() {
         _ => return,
     }
 
-    let api = ActiveOrdersBuilder::new(access_key.clone())
-        .currency_pair("zaif_jpy")
+    let api = ActiveOrdersBuilder::new()
+        .access_key(access_key.clone())
+        .currency_pair(Some("zaif_jpy".to_string()))
         .finalize();
     println!("{}", api.exec().unwrap());
 }
