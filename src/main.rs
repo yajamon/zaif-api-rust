@@ -27,8 +27,9 @@ fn main() {
         .finalize();
     println!("{}", api.exec().unwrap());
 
-    let api = TradeBuilder::new(access_key.clone())
-        .currency_pair("zaif_jpy")
+    let api = TradeBuilder::new()
+        .access_key(access_key.clone())
+        .currency_pair("zaif_jpy".to_string())
         .action(TradeAction::Bid)
         .price(1.0)
         .amount(0.1)
