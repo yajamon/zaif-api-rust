@@ -53,7 +53,7 @@ impl Api {
 
         assert!(res.status().is_success());
         let response_body = res.text().unwrap();
-        let v:Value = serde_json::from_str(response_body.as_str()).unwrap();
+        let v: Value = serde_json::from_str(response_body.as_str()).unwrap();
         if v["success"].as_i64().unwrap() == 0 {
             let msg = v["error"].as_str().unwrap();
             panic!(msg.to_string());
@@ -69,9 +69,9 @@ impl Api {
         param.insert("nonce".to_string(), nonce);
 
         let body = &mut String::new();
-        let param_strs = param
-            .iter()
-            .map(|(key, val)| format!("{}={}", key.as_str(), val.as_str()));
+        let param_strs = param.iter().map(|(key, val)| {
+            format!("{}={}", key.as_str(), val.as_str())
+        });
         for val in param_strs {
             if body.len() != 0 {
                 body.push('&');

@@ -6,28 +6,29 @@ use core::*;
 
 #[derive(Copy, Clone)]
 pub enum TradeAction {
+    None,
     Bid, // 買い
     Ask, // 売り
 }
 impl TradeAction {
-    fn param_string
-        (&self) -> String {
+    fn param_string(&self) -> String {
         match *self {
             TradeAction::Bid => "bid".to_string(),
             TradeAction::Ask => "ask".to_string(),
+            _ => "".to_string(),
         }
     }
 }
 
-pub struct Trade {
-    access_key: AccessKey,
-    currency_pair: String,
-    action: TradeAction,
-    price: f32,
-    amount: f32,
-    limit: Option<f32>,
-    comment: Option<String>,
-}
+builder!(TradeBuilder => Trade {
+    access_key: AccessKey = AccessKey::new("", ""),
+    currency_pair: String = "".to_string(),
+    action: TradeAction = TradeAction::None,
+    price: f32 = 0.0,
+    amount: f32 = 0.0,
+    limit: Option<f32> = None,
+    comment: Option<String> = None
+});
 
 impl Trade {
     pub fn exec(&self) -> reqwest::Result<String> {
@@ -52,65 +53,6 @@ impl Trade {
             .finalize();
 
         api.exec()
-    }
-}
-
-pub struct TradeBuilder {
-    access_key: AccessKey,
-    currency_pair: Option<String>,
-    action: Option<TradeAction>,
-    price: Option<f32>,
-    amount: Option<f32>,
-    limit: Option<f32>,
-    comment: Option<String>,
-}
-
-impl TradeBuilder{
-    pub fn new(access_key: AccessKey) -> TradeBuilder {
-        TradeBuilder {
-            access_key: access_key,
-            currency_pair: None,
-            action: None,
-            price: None,
-            amount: None,
-            limit: None,
-            comment: None,
-        }
-    }
-    pub fn currency_pair(&mut self, currency_pair: &str) -> &mut TradeBuilder {
-        self.currency_pair = Some(currency_pair.to_string());
-        self
-    }
-    pub fn action(&mut self, action: TradeAction) -> &mut TradeBuilder {
-        self.action = Some(action);
-        self
-    }
-    pub fn price(&mut self, price: f32) -> &mut TradeBuilder {
-        self.price = Some(price);
-        self
-    }
-    pub fn amount(&mut self, amount: f32) -> &mut TradeBuilder {
-        self.amount = Some(amount);
-        self
-    }
-    pub fn limit(&mut self, limit: f32) -> &mut TradeBuilder {
-        self.limit = Some(limit);
-        self
-    }
-    pub fn comment(&mut self, comment: &str) -> &mut TradeBuilder {
-        self.comment = Some(comment.to_string());
-        self
-    }
-    pub fn finalize(&self) -> Trade {
-        Trade {
-            access_key: self.access_key.clone(),
-            currency_pair: self.currency_pair.clone().unwrap().clone(),
-            action: self.action.unwrap(),
-            price: self.price.unwrap(),
-            amount: self.amount.unwrap(),
-            limit: self.limit.clone(),
-            comment: self.comment.clone(),
-        }
     }
 }
 

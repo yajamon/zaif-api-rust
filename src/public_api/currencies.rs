@@ -2,9 +2,9 @@ extern crate reqwest;
 
 use public_api::PublicApi;
 
-pub struct Currencies {
-    name: String,
-}
+builder!(CurrenciesBuilder => Currencies {
+    name: String = "all".to_string()
+});
 
 impl Currencies {
     pub fn exec(&self) -> reqwest::Result<String> {
@@ -18,26 +18,5 @@ impl PublicApi for Currencies {
     }
     fn parameter(&self) -> &str {
         self.name.as_str()
-    }
-}
-
-pub struct CurrenciesBuilder {
-    name: String,
-}
-
-impl CurrenciesBuilder {
-    pub fn new() -> CurrenciesBuilder {
-        CurrenciesBuilder {
-            name: "all".to_string(),
-        }
-    }
-    pub fn name(&mut self, name: &str) -> &mut CurrenciesBuilder {
-        self.name = name.to_string();
-        self
-    }
-    pub fn finalize(&self) -> Currencies {
-        Currencies {
-            name: self.name.clone(),
-        }
     }
 }
