@@ -15,10 +15,10 @@ fn main() {
     let api = CurrencyPairsBuilder::new().finalize();
     println!("{}", api.exec().unwrap());
 
-    let api = LastPriceBuilder::new().currency_pair("btc_jpy").finalize();
+    let api = LastPriceBuilder::new().currency_pair("btc_jpy".to_string()).finalize();
     println!("{}", api.exec().unwrap());
 
-    let api = DepthBuilder::new().currency_pair("btc_jpy").finalize();
+    let api = DepthBuilder::new().currency_pair("btc_jpy".to_string()).finalize();
     println!("{}", api.exec().unwrap());
 
     let access_key = AccessKey::new("YOUR_API_KEY", "YOUR_API_SECRET");
