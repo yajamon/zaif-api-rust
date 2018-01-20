@@ -1,4 +1,7 @@
 extern crate reqwest;
+extern crate serde_json;
+
+use self::serde_json::Value;
 
 use core::*;
 
@@ -15,7 +18,7 @@ mod depth;
 trait PublicApi {
     fn action(&self) -> &str;
     fn parameter(&self) -> &str;
-    fn exec(&self) -> reqwest::Result<String> {
+    fn exec(&self) -> serde_json::Result<Value> {
         let endpoint = "https://api.zaif.jp/api/1";
         let api = ApiBuilder::new()
             .uri(
@@ -23,6 +26,11 @@ trait PublicApi {
             )
             .finalize();
 
-        api.exec()
+        let res = match api.exec() {
+            Ok(res) => res,
+            Err(e) => panic!("reqwest Error: {}", e),
+        };
+        serde_json::from_str(res.as_str())
     }
 }
+
