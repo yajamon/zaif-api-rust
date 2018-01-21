@@ -10,7 +10,9 @@ use zaif_api::trade_api::*;
 
 fn main() {
     let api = CurrenciesBuilder::new().name("btc".to_string()).finalize();
-    println!("{}", api.exec().unwrap());
+    for currency in api.exec().unwrap() {
+        println!("name: {} is_token: {}", currency.name, currency.is_token);
+    }
 
     let api = CurrencyPairsBuilder::new().finalize();
     println!("{}", api.exec().unwrap());
