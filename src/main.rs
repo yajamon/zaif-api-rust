@@ -15,7 +15,13 @@ fn main() {
     }
 
     let api = CurrencyPairsBuilder::new().finalize();
-    println!("{}", api.exec().unwrap());
+    for currency_pair in api.exec().unwrap() {
+        println!(
+            "name: {} description: {}",
+            currency_pair.name,
+            currency_pair.description
+        );
+    }
 
     let api = LastPriceBuilder::new().currency_pair("btc_jpy".to_string()).finalize();
     println!("{}", api.exec().unwrap());
