@@ -26,8 +26,15 @@ fn main() {
     let api = LastPriceBuilder::new().currency_pair("btc_jpy".to_string()).finalize();
     println!("{}", api.exec().unwrap());
 
-    let api = DepthBuilder::new().currency_pair("btc_jpy".to_string()).finalize();
-    println!("{}", api.exec().unwrap());
+    let api = DepthBuilder::new()
+        .currency_pair("btc_jpy".to_string())
+        .finalize();
+    for ask in api.exec().unwrap().asks {
+        println!("ask price: {} amount: {}", ask.price(), ask.amount());
+    }
+    for bid in api.exec().unwrap().bids {
+        println!("bid price: {} amount: {}", bid.price(), bid.amount());
+    }
 
     let access_key = AccessKey::new("YOUR_API_KEY", "YOUR_API_SECRET");
     let api = GetInfo2Builder::new()
