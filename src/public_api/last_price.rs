@@ -1,23 +1,28 @@
-extern crate reqwest;
+extern crate serde;
+extern crate serde_json;
 
-use core::*;
+use public_api::PublicApi;
 
 builder!(LastPriceBuilder => LastPrice {
     currency_pair: String = "btc_jpy".to_string()
 });
 
 impl LastPrice {
-    pub fn exec(&self) -> reqwest::Result<String> {
-        let api = ApiBuilder::new()
-            .uri(
-                format!(
-                    "https://api.zaif.jp/api/1/last_price/{}",
-                    self.currency_pair
-                ).as_str(),
-            )
-            .finalize();
-
-        api.exec()
+    pub fn exec(&self) -> serde_json::Result<LastPriceResponse> {
+        serde_json::from_value(<Self as PublicApi>::exec(&self)?)
     }
 }
 
+impl PublicApi for LastPrice {
+    fn action(&self) -> &str {
+        "last_price"
+    }
+    fn parameter(&self) -> &str {
+        self.currency_pair.as_str()
+    }
+}
+
+#[derive(Deserialize)]
+pub struct LastPriceResponse {
+    pub last_price: f64,
+}

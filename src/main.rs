@@ -10,16 +10,33 @@ use zaif_api::trade_api::*;
 
 fn main() {
     let api = CurrenciesBuilder::new().name("btc".to_string()).finalize();
-    println!("{}", api.exec().unwrap());
+    for currency in api.exec().unwrap() {
+        println!("name: {} is_token: {}", currency.name, currency.is_token);
+    }
 
     let api = CurrencyPairsBuilder::new().finalize();
-    println!("{}", api.exec().unwrap());
+    for currency_pair in api.exec().unwrap() {
+        println!(
+            "name: {} description: {}",
+            currency_pair.name,
+            currency_pair.description
+        );
+    }
 
-    let api = LastPriceBuilder::new().currency_pair("btc_jpy".to_string()).finalize();
-    println!("{}", api.exec().unwrap());
+    let api = LastPriceBuilder::new()
+        .currency_pair("btc_jpy".to_string())
+        .finalize();
+    println!("last_price: {}", api.exec().unwrap().last_price);
 
-    let api = DepthBuilder::new().currency_pair("btc_jpy".to_string()).finalize();
-    println!("{}", api.exec().unwrap());
+    let api = DepthBuilder::new()
+        .currency_pair("btc_jpy".to_string())
+        .finalize();
+    for ask in api.exec().unwrap().asks {
+        println!("ask price: {} amount: {}", ask.price(), ask.amount());
+    }
+    for bid in api.exec().unwrap().bids {
+        println!("bid price: {} amount: {}", bid.price(), bid.amount());
+    }
 
     let access_key = AccessKey::new("YOUR_API_KEY", "YOUR_API_SECRET");
     let api = GetInfo2Builder::new()
