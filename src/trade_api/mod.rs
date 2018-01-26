@@ -18,7 +18,7 @@ mod cancel_order;
 
 trait TradeApi {
     fn method(&self) -> &str;
-    fn parameters(&self) -> &HashMap<String, String>;
+    fn parameters(&self) -> HashMap<String, String>;
     fn access_key(&self) -> &AccessKey;
 
     fn exec(&self) -> serde_json::Result<Value> {
