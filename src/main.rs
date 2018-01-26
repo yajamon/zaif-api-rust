@@ -42,7 +42,9 @@ fn main() {
     let api = GetInfo2Builder::new()
         .access_key(access_key.clone())
         .finalize();
-    println!("{}", api.exec().unwrap());
+    for (coin, amount) in api.exec().unwrap().funds.iter() {
+        println!("coin: {} amount: {}", coin, amount);
+    }
 
     let api = TradeBuilder::new()
         .access_key(access_key.clone())
