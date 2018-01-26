@@ -32,7 +32,7 @@ impl TradeApi for GetInfo2 {
 pub struct GetInfo2Response {
     pub funds: HashMap<String, f64>,
     pub deposit: HashMap<String, f64>,
-    pub rights: HashMap<String, bool>,
+    pub rights: HashMap<String, i64>,
     pub open_orders: i64,
     pub server_time: i64,
 }
