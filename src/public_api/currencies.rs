@@ -1,8 +1,6 @@
 extern crate serde;
 extern crate serde_json;
 
-use self::serde_json::Value;
-
 use public_api::PublicApi;
 
 builder!(CurrenciesBuilder => Currencies {
