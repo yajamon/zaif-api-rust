@@ -23,8 +23,10 @@ fn main() {
         );
     }
 
-    let api = LastPriceBuilder::new().currency_pair("btc_jpy".to_string()).finalize();
-    println!("{}", api.exec().unwrap());
+    let api = LastPriceBuilder::new()
+        .currency_pair("btc_jpy".to_string())
+        .finalize();
+    println!("last_price: {}", api.exec().unwrap().last_price);
 
     let api = DepthBuilder::new()
         .currency_pair("btc_jpy".to_string())
