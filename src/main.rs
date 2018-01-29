@@ -55,12 +55,19 @@ fn main() {
         .finalize();
     match api.exec() {
         Ok(res) => {
-            println!("{}", res);
-            let json: Value = serde_json::from_str(res.as_str()).unwrap();
-            let order_id = json["return"]["order_id"].as_u64().unwrap();
+            println!(
+                "received: {}, remains: {}, order_id: {}",
+                res.received,
+                res.remains,
+                res.order_id
+            );
+            if (res.order_id == 0) {
+                println!("Complete trade.");
+                return;
+            }
             let api = CancelOrderBuilder::new()
                 .access_key(access_key.clone())
-                .order_id(order_id)
+                .order_id(res.order_id)
                 .currency_pair(Some("zaif_jpy".to_string()))
                 .finalize();
             let wait_time = time::Duration::from_secs(5);
