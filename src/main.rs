@@ -53,8 +53,8 @@ fn main() {
         .price(1.0)
         .amount(0.1)
         .finalize();
-    match api.exec() {
-        Ok(res) => {
+    match api.exec()
+        .and_then(|res| {
             println!(
                 "received: {}, remains: {}, order_id: {}",
                 res.received,
@@ -62,26 +62,27 @@ fn main() {
                 res.order_id
             );
             if res.order_id == 0 {
-                println!("Complete trade.");
-                return;
+                panic!("Complete trade.");
             }
+            Ok(res.order_id)
+        })
+        .and_then(|order_id| {
             let api = CancelOrderBuilder::new()
                 .access_key(access_key.clone())
-                .order_id(res.order_id)
+                .order_id(order_id)
                 .currency_pair(Some("zaif_jpy".to_string()))
                 .finalize();
             let wait_time = time::Duration::from_secs(5);
             thread::sleep(wait_time);
-            match api.exec() {
-                Ok(res) => {
-                    println!("Cancel order_id: {}", res.order_id);
-                }
-                Err(_) => {
-                    println!("Failed cancel");
-                }
-            }
-        }
-        _ => return,
+            api.exec()
+        })
+        .and_then(|res| {
+            println!("Cancel order_id: {}", res.order_id);
+            Ok(())
+        }) {
+
+        Ok(_) => println!("Complete trade and cancel"),
+        Err(e) => println!("Error: {}", e),
     }
 
     let api = ActiveOrdersBuilder::new()
