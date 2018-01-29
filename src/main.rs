@@ -61,7 +61,7 @@ fn main() {
                 res.remains,
                 res.order_id
             );
-            if (res.order_id == 0) {
+            if res.order_id == 0 {
                 println!("Complete trade.");
                 return;
             }
@@ -72,7 +72,14 @@ fn main() {
                 .finalize();
             let wait_time = time::Duration::from_secs(5);
             thread::sleep(wait_time);
-            println!("{}", api.exec().unwrap());
+            match api.exec() {
+                Ok(res) => {
+                    println!("Cancel order_id: {}", res.order_id);
+                }
+                Err(_) => {
+                    println!("Failed cancel");
+                }
+            }
         }
         _ => return,
     }
