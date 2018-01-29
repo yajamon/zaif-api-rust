@@ -1,8 +1,10 @@
-extern crate reqwest;
+extern crate serde;
+extern crate serde_json;
 
 use std::collections::HashMap;
 
-use core::*;
+use trade_api::TradeApi;
+use core::AccessKey;
 
 builder!(ActiveOrdersBuilder => ActiveOrders {
     access_key: AccessKey = AccessKey::new("", ""),
@@ -10,24 +12,36 @@ builder!(ActiveOrdersBuilder => ActiveOrders {
 });
 
 impl ActiveOrders {
-    pub fn exec(&self) -> reqwest::Result<String> {
-        let param: &mut HashMap<String, String> = &mut HashMap::new();
-        param.insert("method".to_string(), "active_orders".to_string());
+    pub fn exec(&self) -> serde_json::Result<HashMap<u64, ActiveOrdersResponse>> {
+        serde_json::from_value(<Self as TradeApi>::exec(&self)?)
+    }
+}
+
+impl TradeApi for ActiveOrders {
+    fn method(&self) -> &str {
+        "active_orders"
+    }
+    fn parameters(&self) -> HashMap<String, String> {
+        let mut param = HashMap::new();
         if let Some(ref currency_pair) = self.currency_pair {
             param.insert(
                 "currency_pair".to_string(),
                 format!("{}", currency_pair.clone()),
             );
         }
-
-        let api = ApiBuilder::new()
-            .access_key(self.access_key.clone())
-            .uri("https://api.zaif.jp/tapi")
-            .method(Method::Post)
-            .param(param.clone())
-            .finalize();
-
-        api.exec()
+        param
+    }
+    fn access_key(&self) -> &AccessKey {
+        &self.access_key
     }
 }
 
+#[derive(Deserialize)]
+pub struct ActiveOrdersResponse {
+    pub currency_pair: String,
+    pub action: String,
+    pub amount: f64,
+    pub price: f64,
+    pub timestamp: String,
+    pub comment: String,
+}
