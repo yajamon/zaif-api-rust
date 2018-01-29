@@ -20,17 +20,31 @@ use zaif_api::public_api::*;
 use zaif_api::trade_api::*;
 
 fn main() {
-    let api = public_api::DepthBuilder::new().currency_pair("btc_jpy").finalize();
-    println!("{}", api.exec().unwrap());
+    let api = CurrenciesBuilder::new().name("btc".to_string()).finalize();
+    for currency in api.exec().unwrap() {
+        println!("name: {} is_token: {}", currency.name, currency.is_token);
+    }
 
     let access_key = AccessKey::new("YOUR_API_KEY", "YOUR_API_SECRET");
 
-    let api = TradeBuilder::new(access_key.clone())
-        .currency_pair("zaif_jpy")
+    let api = TradeBuilder::new()
+        .access_key(access_key.clone())
+        .currency_pair("zaif_jpy".to_string())
         .action(TradeAction::Bid)
         .price(1.0)
         .amount(0.1)
         .finalize();
-    println!("{}", api.exec().unwrap());
+    let _ = api.exec().and_then(|res| {
+        println!(
+            "received: {}, remains: {}, order_id: {}",
+            res.received,
+            res.remains,
+            res.order_id
+        );
+        if res.order_id == 0 {
+            panic!("Complete trade.");
+        }
+        Ok(res.order_id)
+    });
 }
 ```
