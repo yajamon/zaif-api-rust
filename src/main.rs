@@ -89,5 +89,14 @@ fn main() {
         .access_key(access_key.clone())
         .currency_pair(Some("zaif_jpy".to_string()))
         .finalize();
-    println!("{}", api.exec().unwrap());
+    for (order_id, order) in api.exec().unwrap().iter() {
+        println!(
+            "order_id: {}, currency_pair: {}, action: {}, amount: {}, price: {}",
+            order_id,
+            order.currency_pair,
+            order.action,
+            order.amount,
+            order.price
+        );
+    }
 }
