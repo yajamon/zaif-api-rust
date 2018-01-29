@@ -1,6 +1,6 @@
 [package]
 name = "zaif-api"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["yajamon <yajamon.tatsuki@gmail.com>"]
 
 license = "MIT"
