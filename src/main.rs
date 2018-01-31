@@ -38,6 +38,18 @@ fn main() {
         println!("bid price: {} amount: {}", bid.price(), bid.amount());
     }
 
+    let api = TradesBuilder::new()
+        .currency_pair("btc_jpy".to_string())
+        .finalize();
+    for trade in api.exec().unwrap() {
+        println!(
+            "type: {}, price: {}, amount: {}",
+            trade.trade_type,
+            trade.price,
+            trade.amount
+        );
+    }
+
     let access_key = AccessKey::new("YOUR_API_KEY", "YOUR_API_SECRET");
     let api = GetInfo2Builder::new()
         .access_key(access_key.clone())

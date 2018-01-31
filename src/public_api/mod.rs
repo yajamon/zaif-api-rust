@@ -9,11 +9,13 @@ pub use self::currencies::*;
 pub use self::currency_pairs::*;
 pub use self::last_price::*;
 pub use self::depth::*;
+pub use self::trades::*;
 
 mod currencies;
 mod currency_pairs;
 mod last_price;
 mod depth;
+mod trades;
 
 trait PublicApi {
     fn action(&self) -> &str;
@@ -33,4 +35,3 @@ trait PublicApi {
         serde_json::from_str(res.as_str())
     }
 }
-
