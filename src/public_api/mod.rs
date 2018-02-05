@@ -10,12 +10,14 @@ pub use self::currency_pairs::*;
 pub use self::last_price::*;
 pub use self::depth::*;
 pub use self::trades::*;
+pub use self::ticker::*;
 
 mod currencies;
 mod currency_pairs;
 mod last_price;
 mod depth;
 mod trades;
+mod ticker;
 
 trait PublicApi {
     fn action(&self) -> &str;

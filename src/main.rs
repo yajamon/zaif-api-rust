@@ -49,6 +49,11 @@ fn main() {
             trade.amount
         );
     }
+    let api = TickerBuilder::new()
+        .currency_pair("btc_jpy".to_string())
+        .finalize();
+    let res = api.exec().unwrap();
+    println!("last: {}, high: {}, low: {}", res.last, res.high, res.low);
 
     let access_key = AccessKey::new("YOUR_API_KEY", "YOUR_API_SECRET");
     let api = GetInfo2Builder::new()
