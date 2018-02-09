@@ -7,11 +7,13 @@ use self::serde_json::Value;
 use core::*;
 
 pub use self::get_info2::*;
+pub use self::get_personal_info::*;
 pub use self::trade::*;
 pub use self::active_orders::*;
 pub use self::cancel_order::*;
 
 mod get_info2;
+mod get_personal_info;
 mod trade;
 mod active_orders;
 mod cancel_order;

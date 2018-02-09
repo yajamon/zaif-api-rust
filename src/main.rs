@@ -20,6 +20,7 @@ command [action]
         get_info2
         trade
         active_orders
+        get_personal_info
 ";
     println!("{}", s);
 }
@@ -46,6 +47,7 @@ fn main() {
         "get_info2" => call_get_info2(&access_key),
         "trade" => call_trade(&access_key),
         "active_orders" => call_active_orders(&access_key),
+        "get_personal_info" => call_get_personal_info(&access_key),
         _ => put_help(),
     }
     return;
@@ -178,4 +180,11 @@ fn call_active_orders(access_key: &AccessKey) {
             order.price
         );
     }
+}
+
+fn call_get_personal_info(access_key: &AccessKey) {
+    let api = GetPersonalInfoBuilder::new()
+        .access_key(access_key.clone())
+        .finalize();
+    println!("{}", api.exec().unwrap().ranking_nickname);
 }
