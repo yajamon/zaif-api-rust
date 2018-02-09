@@ -1,14 +1,33 @@
 extern crate zaif_api;
 extern crate serde_json;
 
-use std::{thread, time};
+use std::{thread, time, env};
 use serde_json::Value;
 
 use zaif_api::AccessKey;
 use zaif_api::public_api::*;
 use zaif_api::trade_api::*;
 
+fn put_help() {
+    let s = "
+command [action]
+";
+    println!("{}", s);
+}
+
 fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    if args.len() < 2 {
+        put_help();
+        return;
+    }
+    let action = &args[1];
+    println!("action: {}", action);
+
+    match action.as_str() {
+        _ => put_help(),
+    }
     let api = CurrenciesBuilder::new().name("btc".to_string()).finalize();
     for currency in api.exec().unwrap() {
         println!("name: {} is_token: {}", currency.name, currency.is_token);
@@ -22,6 +41,7 @@ fn main() {
             currency_pair.description
         );
     }
+    return;
 
     let api = LastPriceBuilder::new()
         .currency_pair("btc_jpy".to_string())
