@@ -26,54 +26,15 @@ fn main() {
     println!("action: {}", action);
 
     match action.as_str() {
+        "currency" => call_currency(),
+        "currency_pair" => call_currency_pair(),
+        "last_price" => call_last_price(),
+        "depth" => call_depth(),
+        "trades" => call_trades(),
+        "ticker" => call_ticker(),
         _ => put_help(),
     }
-    let api = CurrenciesBuilder::new().name("btc".to_string()).finalize();
-    for currency in api.exec().unwrap() {
-        println!("name: {} is_token: {}", currency.name, currency.is_token);
-    }
-
-    let api = CurrencyPairsBuilder::new().finalize();
-    for currency_pair in api.exec().unwrap() {
-        println!(
-            "name: {} description: {}",
-            currency_pair.name,
-            currency_pair.description
-        );
-    }
     return;
-
-    let api = LastPriceBuilder::new()
-        .currency_pair("btc_jpy".to_string())
-        .finalize();
-    println!("last_price: {}", api.exec().unwrap().last_price);
-
-    let api = DepthBuilder::new()
-        .currency_pair("btc_jpy".to_string())
-        .finalize();
-    for ask in api.exec().unwrap().asks {
-        println!("ask price: {} amount: {}", ask.price(), ask.amount());
-    }
-    for bid in api.exec().unwrap().bids {
-        println!("bid price: {} amount: {}", bid.price(), bid.amount());
-    }
-
-    let api = TradesBuilder::new()
-        .currency_pair("btc_jpy".to_string())
-        .finalize();
-    for trade in api.exec().unwrap() {
-        println!(
-            "type: {}, price: {}, amount: {}",
-            trade.trade_type,
-            trade.price,
-            trade.amount
-        );
-    }
-    let api = TickerBuilder::new()
-        .currency_pair("btc_jpy".to_string())
-        .finalize();
-    let res = api.exec().unwrap();
-    println!("last: {}, high: {}, low: {}", res.last, res.high, res.low);
 
     let access_key = AccessKey::new("YOUR_API_KEY", "YOUR_API_SECRET");
     let api = GetInfo2Builder::new()
@@ -136,4 +97,65 @@ fn main() {
             order.price
         );
     }
+}
+
+fn call_currency() {
+    let api = CurrenciesBuilder::new().name("btc".to_string()).finalize();
+    for currency in api.exec().unwrap() {
+        println!("name: {} is_token: {}", currency.name, currency.is_token);
+    }
+}
+
+fn call_currency_pair() {
+    let api = CurrencyPairsBuilder::new().finalize();
+    for currency_pair in api.exec().unwrap() {
+        println!(
+            "name: {} description: {}",
+            currency_pair.name,
+            currency_pair.description
+        );
+    }
+}
+
+fn call_last_price() {
+    let api = LastPriceBuilder::new()
+        .currency_pair("btc_jpy".to_string())
+        .finalize();
+    println!("last_price: {}", api.exec().unwrap().last_price);
+
+}
+
+fn call_depth() {
+    let api = DepthBuilder::new()
+        .currency_pair("btc_jpy".to_string())
+        .finalize();
+    for ask in api.exec().unwrap().asks {
+        println!("ask price: {} amount: {}", ask.price(), ask.amount());
+    }
+    for bid in api.exec().unwrap().bids {
+        println!("bid price: {} amount: {}", bid.price(), bid.amount());
+    }
+
+}
+
+fn call_trades() {
+    let api = TradesBuilder::new()
+        .currency_pair("btc_jpy".to_string())
+        .finalize();
+    for trade in api.exec().unwrap() {
+        println!(
+            "type: {}, price: {}, amount: {}",
+            trade.trade_type,
+            trade.price,
+            trade.amount
+        );
+    }
+}
+
+fn call_ticker() {
+    let api = TickerBuilder::new()
+        .currency_pair("btc_jpy".to_string())
+        .finalize();
+    let res = api.exec().unwrap();
+    println!("last: {}, high: {}, low: {}", res.last, res.high, res.low);
 }
