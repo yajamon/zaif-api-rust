@@ -25,9 +25,7 @@ trait PublicApi {
     fn exec(&self) -> serde_json::Result<Value> {
         let endpoint = "https://api.zaif.jp/api/1";
         let api = ApiBuilder::new()
-            .uri(
-                format!("{}/{}/{}", endpoint, self.action(), self.parameter()).as_str(),
-            )
+            .uri(format!("{}/{}/{}", endpoint, self.action(), self.parameter()).as_str())
             .finalize();
 
         let res = match api.exec() {

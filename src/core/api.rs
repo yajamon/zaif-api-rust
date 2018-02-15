@@ -8,7 +8,7 @@ use self::chrono::Utc;
 use self::openssl::hash::MessageDigest;
 use self::openssl::pkey::PKey;
 use self::openssl::sign::Signer;
-use self::serde_json::{Value, Error};
+use self::serde_json::{Error, Value};
 
 use std::collections::HashMap;
 
@@ -69,9 +69,9 @@ impl Api {
         param.insert("nonce".to_string(), nonce);
 
         let body = &mut String::new();
-        let param_strs = param.iter().map(|(key, val)| {
-            format!("{}={}", key.as_str(), val.as_str())
-        });
+        let param_strs = param
+            .iter()
+            .map(|(key, val)| format!("{}={}", key.as_str(), val.as_str()));
         for val in param_strs {
             if body.len() != 0 {
                 body.push('&');

@@ -1,7 +1,7 @@
-extern crate zaif_api;
 extern crate serde_json;
+extern crate zaif_api;
 
-use std::{thread, time, env};
+use std::{env, thread, time};
 use serde_json::Value;
 
 use zaif_api::AccessKey;
@@ -69,8 +69,7 @@ fn call_currency_pair() {
     for currency_pair in api.exec().unwrap() {
         println!(
             "name: {} description: {}",
-            currency_pair.name,
-            currency_pair.description
+            currency_pair.name, currency_pair.description
         );
     }
 }
@@ -80,7 +79,6 @@ fn call_last_price() {
         .currency_pair("btc_jpy".to_string())
         .finalize();
     println!("last_price: {}", api.exec().unwrap().last_price);
-
 }
 
 fn call_depth() {
@@ -93,7 +91,6 @@ fn call_depth() {
     for bid in api.exec().unwrap().bids {
         println!("bid price: {} amount: {}", bid.price(), bid.amount());
     }
-
 }
 
 fn call_trades() {
@@ -103,9 +100,7 @@ fn call_trades() {
     for trade in api.exec().unwrap() {
         println!(
             "type: {}, price: {}, amount: {}",
-            trade.trade_type,
-            trade.price,
-            trade.amount
+            trade.trade_type, trade.price, trade.amount
         );
     }
 }
@@ -139,9 +134,7 @@ fn call_trade(access_key: &AccessKey) {
         .and_then(|res| {
             println!(
                 "received: {}, remains: {}, order_id: {}",
-                res.received,
-                res.remains,
-                res.order_id
+                res.received, res.remains, res.order_id
             );
             if res.order_id == 0 {
                 panic!("Complete trade.");
@@ -162,14 +155,12 @@ fn call_trade(access_key: &AccessKey) {
             println!("Cancel order_id: {}", res.order_id);
             Ok(())
         }) {
-
         Ok(_) => println!("Complete trade and cancel"),
         Err(e) => println!("Error: {}", e),
     }
 }
 
 fn call_active_orders(access_key: &AccessKey) {
-
     let api = ActiveOrdersBuilder::new()
         .access_key(access_key.clone())
         .currency_pair(Some("zaif_jpy".to_string()))
@@ -177,11 +168,7 @@ fn call_active_orders(access_key: &AccessKey) {
     for (order_id, order) in api.exec().unwrap().iter() {
         println!(
             "order_id: {}, currency_pair: {}, action: {}, amount: {}, price: {}",
-            order_id,
-            order.currency_pair,
-            order.action,
-            order.amount,
-            order.price
+            order_id, order.currency_pair, order.action, order.amount, order.price
         );
     }
 }
