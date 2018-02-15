@@ -12,6 +12,7 @@ pub use self::get_id_info::*;
 pub use self::trade::*;
 pub use self::active_orders::*;
 pub use self::cancel_order::*;
+pub use self::trade_history::*;
 
 mod get_info2;
 mod get_personal_info;
@@ -19,6 +20,7 @@ mod get_id_info;
 mod trade;
 mod active_orders;
 mod cancel_order;
+mod trade_history;
 
 trait TradeApi {
     fn method(&self) -> &str;
