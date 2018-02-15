@@ -22,6 +22,7 @@ command [action]
         active_orders
         get_personal_info
         get_id_info
+        trade_history
 ";
     println!("{}", s);
 }
@@ -50,6 +51,7 @@ fn main() {
         "active_orders" => call_active_orders(&access_key),
         "get_personal_info" => call_get_personal_info(&access_key),
         "get_id_info" => call_get_id_info(&access_key),
+        "trade_history" => call_trade_history(&access_key),
         _ => put_help(),
     }
     return;
@@ -196,4 +198,16 @@ fn call_get_id_info(access_key: &AccessKey) {
         .access_key(access_key.clone())
         .finalize();
     println!("{}", api.exec().unwrap().email);
+}
+
+fn call_trade_history(access_key: &AccessKey) {
+    let api = TradeHistoryBuilder::new()
+        .access_key(access_key.clone())
+        .finalize();
+    for (order_id, order) in api.exec().unwrap().iter() {
+        println!(
+            "order_id: {}, currency_pair: {}, action: {}, amount: {}, price: {}",
+            order_id, order.currency_pair, order.action, order.amount, order.price
+        );
+    }
 }
