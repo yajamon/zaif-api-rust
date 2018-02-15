@@ -84,7 +84,7 @@ pub struct TradeHistoryResponse {
     pub price: f64,
     pub fee: f64,
     pub your_action: String,
-    pub bonus: f64,
+    pub bonus: Option<f64>,
     pub timestamp: String,
     pub comment: String,
 }
