@@ -6,9 +6,7 @@ Use Zaif-Api from Rust
 Zaif ApiのWrapperです。
 reqwest crateを使って実装しています。
 
-## API Reference
-
-http://techbureau-api-document.readthedocs.io/ja/latest/index.html
+[Zaif Web API Reference](http://techbureau-api-document.readthedocs.io/ja/latest/index.html)
 
 ## Usage
 
