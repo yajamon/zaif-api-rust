@@ -8,6 +8,8 @@ pub struct Error {
     kind: Kind,
 }
 
+pub type Result<T> = ::std::result::Result<T, Error>;
+
 #[derive(Debug)]
 enum Kind {
     Network(reqwest::Error),
