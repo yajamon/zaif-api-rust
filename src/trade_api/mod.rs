@@ -27,7 +27,7 @@ trait TradeApi {
     fn parameters(&self) -> HashMap<String, String>;
     fn access_key(&self) -> &AccessKey;
 
-    fn exec(&self) -> serde_json::Result<Value> {
+    fn exec(&self) -> ::Result<Value> {
         let mut param = self.parameters().clone();
         param.insert("method".to_string(), self.method().to_string());
 
@@ -38,13 +38,10 @@ trait TradeApi {
             .param(param)
             .finalize();
 
-        let res = match api.exec() {
-            Ok(res) => res,
-            Err(e) => panic!("reqwest Error: {}", e),
-        };
+        let res = api.exec()?;
         let result: Value = serde_json::from_str(res.as_str())?;
-        if result["success"].as_i64().unwrap() != 1 {
-            panic!("error: {}", result["error"]);
+        if result["success"].as_i64() != Some(1) {
+            return Err(format!("error: {}", result["error"]).into());
         }
         Ok(result["return"].clone())
     }
