@@ -42,18 +42,19 @@ impl Api {
 
         let mut headers = Headers::new();
 
-        let access_key = self.access_key.clone().unwrap();
+        let access_key = self.access_key
+            .clone()
+            .ok_or("AccessKeyが必要です。".to_string())?;
         headers.set_raw("Key", access_key.key.as_str());
         headers.set_raw("Sign", sign.as_str());
 
         let client = reqwest::Client::new();
         let uri = "https://api.zaif.jp/tapi";
-        let mut res = client.post(uri).headers(headers).body(body).send().unwrap();
+        let mut res = client.post(uri).headers(headers).body(body).send()?;
 
-        assert!(res.status().is_success());
-        let response_body = res.text().unwrap();
-        let v: Value = serde_json::from_str(response_body.as_str()).unwrap();
-        if v["success"].as_i64().unwrap() == 0 {
+        let response_body = res.error_for_status()?.text()?;
+        let v: Value = serde_json::from_str(response_body.as_str())?;
+        if v["success"].as_i64() == Some(0) {
             let msg = v["error"].as_str().unwrap();
             panic!(msg.to_string());
         }
