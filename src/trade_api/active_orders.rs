@@ -12,8 +12,8 @@ builder!(ActiveOrdersBuilder => ActiveOrders {
 });
 
 impl ActiveOrders {
-    pub fn exec(&self) -> serde_json::Result<HashMap<u64, ActiveOrdersResponse>> {
-        serde_json::from_value(<Self as TradeApi>::exec(&self)?)
+    pub fn exec(&self) -> ::Result<HashMap<u64, ActiveOrdersResponse>> {
+        Ok(serde_json::from_value(<Self as TradeApi>::exec(&self)?)?)
     }
 }
 

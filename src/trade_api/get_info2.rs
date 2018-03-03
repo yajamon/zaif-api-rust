@@ -11,8 +11,8 @@ builder!(GetInfo2Builder => GetInfo2 {
 });
 
 impl GetInfo2 {
-    pub fn exec(&self) -> serde_json::Result<GetInfo2Response> {
-        serde_json::from_value(<Self as TradeApi>::exec(&self)?)
+    pub fn exec(&self) -> ::Result<GetInfo2Response> {
+        Ok(serde_json::from_value(<Self as TradeApi>::exec(&self)?)?)
     }
 }
 

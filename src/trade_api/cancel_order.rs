@@ -13,8 +13,8 @@ builder!(CancelOrderBuilder => CancelOrder {
 });
 
 impl CancelOrder {
-    pub fn exec(&self) -> serde_json::Result<CancelOrderResponse> {
-        serde_json::from_value(<Self as TradeApi>::exec(&self)?)
+    pub fn exec(&self) -> ::Result<CancelOrderResponse> {
+        Ok(serde_json::from_value(<Self as TradeApi>::exec(&self)?)?)
     }
 }
 
