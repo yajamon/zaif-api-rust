@@ -156,7 +156,7 @@ fn call_trade(access_key: &AccessKey) {
             Ok(())
         }) {
         Ok(_) => println!("Complete trade and cancel"),
-        Err(e) => println!("Error: {}", e),
+        Err(e) => println!("Error: {:?}", e),
     }
 }
 
