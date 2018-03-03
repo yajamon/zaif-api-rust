@@ -41,7 +41,7 @@ impl Api {
         let access_key = self.access_key
             .clone()
             .ok_or("AccessKeyが必要です。".to_string())?;
-        let sign = Api::create_sign(body.as_str(), &access_key);
+        let sign = Api::create_sign(body.as_str(), &access_key)?;
 
         let mut headers = Headers::new();
 
@@ -73,19 +73,22 @@ impl Api {
         }
         body.clone()
     }
-    fn create_sign(body: &str, access_key: &AccessKey) -> String {
-        let key = PKey::hmac(access_key.secret.as_bytes()).unwrap();
-        let mut signer = Signer::new(MessageDigest::sha512(), &key).unwrap();
-        signer.update(body.as_bytes()).unwrap();
+    fn create_sign(body: &str, access_key: &AccessKey) -> ::Result<String> {
+        // Resultを返してくる
+        let sign_err = "sign生成に失敗しました".to_string();
+        // Errだった場合にErr(String)にしてあげたい。
+        let key = PKey::hmac(access_key.secret.as_bytes()).or(Err(sign_err.clone()))?;
+        let mut signer = Signer::new(MessageDigest::sha512(), &key).or(Err(sign_err.clone()))?;
+        signer.update(body.as_bytes()).or(Err(sign_err.clone()))?;
         // Rust: byte array to hex String
         // http://illegalargumentexception.blogspot.jp/2015/05/rust-byte-array-to-hex-string.html
-        let signed = signer.sign_to_vec().unwrap();
+        let signed = signer.sign_to_vec().or(Err(sign_err.clone()))?;
         let strs: Vec<String> = signed.iter().map(|b| format!("{:02x}", b)).collect();
         let sign = strs.join("");
         // println!("Key: {}", self.api_key.as_str());
         // println!("Body: {}", body);
         // println!("Sign: {}", sign);
-        sign
+        Ok(sign)
     }
 }
 
