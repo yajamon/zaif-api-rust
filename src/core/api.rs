@@ -22,21 +22,21 @@ pub struct Api {
 }
 
 impl Api {
-    pub fn exec(&self) -> reqwest::Result<String> {
+    pub fn exec(&self) -> ::Result<String> {
         match self.method {
             Method::Get => self.get(),
             Method::Post => self.post(),
         }
     }
 
-    fn get(&self) -> reqwest::Result<String> {
+    fn get(&self) -> ::Result<String> {
         let mut resp = reqwest::get(self.uri.as_str())?;
 
         assert!(resp.status().is_success());
         resp.text()
     }
 
-    fn post(&self) -> reqwest::Result<String> {
+    fn post(&self) -> ::Result<String> {
         // body生成
         let body = self.create_body();
         let sign = self.create_sign(body.as_str());
