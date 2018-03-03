@@ -8,8 +8,8 @@ builder!(TickerBuilder => Ticker {
 });
 
 impl Ticker {
-    pub fn exec(&self) -> serde_json::Result<TickerResponse> {
-        serde_json::from_value(<Self as PublicApi>::exec(&self)?)
+    pub fn exec(&self) -> ::Result<TickerResponse> {
+        Ok(serde_json::from_value(<Self as PublicApi>::exec(&self)?)?)
     }
 }
 

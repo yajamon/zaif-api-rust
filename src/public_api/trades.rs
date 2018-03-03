@@ -8,8 +8,8 @@ builder!(TradesBuilder => Trades {
 });
 
 impl Trades {
-    pub fn exec(&self) -> serde_json::Result<Vec<TradesResponse>> {
-        serde_json::from_value(<Self as PublicApi>::exec(&self)?)
+    pub fn exec(&self) -> ::Result<Vec<TradesResponse>> {
+        Ok(serde_json::from_value(<Self as PublicApi>::exec(&self)?)?)
     }
 }
 

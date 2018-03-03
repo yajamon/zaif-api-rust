@@ -8,8 +8,8 @@ builder!(DepthBuilder => Depth {
 });
 
 impl Depth {
-    pub fn exec(&self) -> serde_json::Result<DepthResponse> {
-        serde_json::from_value(<Self as PublicApi>::exec(&self)?)
+    pub fn exec(&self) -> ::Result<DepthResponse> {
+        Ok(serde_json::from_value(<Self as PublicApi>::exec(&self)?)?)
     }
 }
 
