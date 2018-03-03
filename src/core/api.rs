@@ -30,10 +30,9 @@ impl Api {
     }
 
     fn get(&self) -> ::Result<String> {
-        let mut resp = reqwest::get(self.uri.as_str())?;
+        let resp = reqwest::get(self.uri.as_str())?;
 
-        assert!(resp.status().is_success());
-        resp.text()
+        Ok(resp.error_for_status()?.text()?)
     }
 
     fn post(&self) -> ::Result<String> {
