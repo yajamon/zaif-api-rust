@@ -52,14 +52,7 @@ impl Api {
         let uri = "https://api.zaif.jp/tapi";
         let mut res = client.post(uri).headers(headers).body(body).send()?;
 
-        let response_body = res.error_for_status()?.text()?;
-        let v: Value = serde_json::from_str(response_body.as_str())?;
-        if v["success"].as_i64() == Some(0) {
-            let msg = v["error"].as_str().unwrap();
-            panic!(msg.to_string());
-        }
-
-        Ok(response_body)
+        Ok(res.error_for_status()?.text()?)
     }
 
     fn create_body(&self) -> String {
