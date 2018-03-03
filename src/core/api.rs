@@ -1,14 +1,12 @@
 extern crate chrono;
 extern crate openssl;
 extern crate reqwest;
-extern crate serde_json;
 
 use self::reqwest::header::Headers;
 use self::chrono::Utc;
 use self::openssl::hash::MessageDigest;
 use self::openssl::pkey::PKey;
 use self::openssl::sign::Signer;
-use self::serde_json::{Error, Value};
 
 use std::collections::HashMap;
 
