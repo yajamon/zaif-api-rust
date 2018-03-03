@@ -50,7 +50,7 @@ impl Api {
 
         let client = reqwest::Client::new();
         let uri = "https://api.zaif.jp/tapi";
-        let mut res = client.post(uri).headers(headers).body(body).send()?;
+        let res = client.post(uri).headers(headers).body(body).send()?;
 
         Ok(res.error_for_status()?.text()?)
     }
