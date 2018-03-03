@@ -38,13 +38,13 @@ impl Api {
     fn post(&self) -> ::Result<String> {
         // body生成
         let body = self.create_body();
-        let sign = self.create_sign(body.as_str());
-
-        let mut headers = Headers::new();
-
         let access_key = self.access_key
             .clone()
             .ok_or("AccessKeyが必要です。".to_string())?;
+        let sign = Api::create_sign(body.as_str(), &access_key);
+
+        let mut headers = Headers::new();
+
         headers.set_raw("Key", access_key.key.as_str());
         headers.set_raw("Sign", sign.as_str());
 
@@ -73,8 +73,7 @@ impl Api {
         }
         body.clone()
     }
-    fn create_sign(&self, body: &str) -> String {
-        let access_key = self.access_key.clone().unwrap();
+    fn create_sign(body: &str, access_key: &AccessKey) -> String {
         let key = PKey::hmac(access_key.secret.as_bytes()).unwrap();
         let mut signer = Signer::new(MessageDigest::sha512(), &key).unwrap();
         signer.update(body.as_bytes()).unwrap();
