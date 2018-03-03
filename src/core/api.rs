@@ -1,14 +1,12 @@
 extern crate chrono;
 extern crate openssl;
 extern crate reqwest;
-extern crate serde_json;
 
 use self::reqwest::header::Headers;
 use self::chrono::Utc;
 use self::openssl::hash::MessageDigest;
 use self::openssl::pkey::PKey;
 use self::openssl::sign::Signer;
-use self::serde_json::{Error, Value};
 
 use std::collections::HashMap;
 
@@ -22,44 +20,37 @@ pub struct Api {
 }
 
 impl Api {
-    pub fn exec(&self) -> reqwest::Result<String> {
+    pub fn exec(&self) -> ::Result<String> {
         match self.method {
             Method::Get => self.get(),
             Method::Post => self.post(),
         }
     }
 
-    fn get(&self) -> reqwest::Result<String> {
-        let mut resp = reqwest::get(self.uri.as_str())?;
+    fn get(&self) -> ::Result<String> {
+        let resp = reqwest::get(self.uri.as_str())?;
 
-        assert!(resp.status().is_success());
-        resp.text()
+        Ok(resp.error_for_status()?.text()?)
     }
 
-    fn post(&self) -> reqwest::Result<String> {
+    fn post(&self) -> ::Result<String> {
         // body生成
         let body = self.create_body();
-        let sign = self.create_sign(body.as_str());
+        let access_key = self.access_key
+            .clone()
+            .ok_or("AccessKeyが必要です。".to_string())?;
+        let sign = Api::create_sign(body.as_str(), &access_key)?;
 
         let mut headers = Headers::new();
 
-        let access_key = self.access_key.clone().unwrap();
         headers.set_raw("Key", access_key.key.as_str());
         headers.set_raw("Sign", sign.as_str());
 
         let client = reqwest::Client::new();
         let uri = "https://api.zaif.jp/tapi";
-        let mut res = client.post(uri).headers(headers).body(body).send().unwrap();
+        let res = client.post(uri).headers(headers).body(body).send()?;
 
-        assert!(res.status().is_success());
-        let response_body = res.text().unwrap();
-        let v: Value = serde_json::from_str(response_body.as_str()).unwrap();
-        if v["success"].as_i64().unwrap() == 0 {
-            let msg = v["error"].as_str().unwrap();
-            panic!(msg.to_string());
-        }
-
-        Ok(response_body)
+        Ok(res.error_for_status()?.text()?)
     }
 
     fn create_body(&self) -> String {
@@ -80,20 +71,22 @@ impl Api {
         }
         body.clone()
     }
-    fn create_sign(&self, body: &str) -> String {
-        let access_key = self.access_key.clone().unwrap();
-        let key = PKey::hmac(access_key.secret.as_bytes()).unwrap();
-        let mut signer = Signer::new(MessageDigest::sha512(), &key).unwrap();
-        signer.update(body.as_bytes()).unwrap();
+    fn create_sign(body: &str, access_key: &AccessKey) -> ::Result<String> {
+        // Resultを返してくる
+        let sign_err = "sign生成に失敗しました".to_string();
+        // Errだった場合にErr(String)にしてあげたい。
+        let key = PKey::hmac(access_key.secret.as_bytes()).or(Err(sign_err.clone()))?;
+        let mut signer = Signer::new(MessageDigest::sha512(), &key).or(Err(sign_err.clone()))?;
+        signer.update(body.as_bytes()).or(Err(sign_err.clone()))?;
         // Rust: byte array to hex String
         // http://illegalargumentexception.blogspot.jp/2015/05/rust-byte-array-to-hex-string.html
-        let signed = signer.sign_to_vec().unwrap();
+        let signed = signer.sign_to_vec().or(Err(sign_err.clone()))?;
         let strs: Vec<String> = signed.iter().map(|b| format!("{:02x}", b)).collect();
         let sign = strs.join("");
         // println!("Key: {}", self.api_key.as_str());
         // println!("Body: {}", body);
         // println!("Sign: {}", sign);
-        sign
+        Ok(sign)
     }
 }
 

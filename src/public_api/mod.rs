@@ -22,16 +22,13 @@ mod ticker;
 trait PublicApi {
     fn action(&self) -> &str;
     fn parameter(&self) -> &str;
-    fn exec(&self) -> serde_json::Result<Value> {
+    fn exec(&self) -> ::Result<Value> {
         let endpoint = "https://api.zaif.jp/api/1";
         let api = ApiBuilder::new()
             .uri(format!("{}/{}/{}", endpoint, self.action(), self.parameter()).as_str())
             .finalize();
 
-        let res = match api.exec() {
-            Ok(res) => res,
-            Err(e) => panic!("reqwest Error: {}", e),
-        };
-        serde_json::from_str(res.as_str())
+        let res = api.exec()?;
+        Ok(serde_json::from_str(res.as_str())?)
     }
 }

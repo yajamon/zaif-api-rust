@@ -11,9 +11,9 @@ builder!(GetIdInfoBuilder => GetIdInfo {
 });
 
 impl GetIdInfo {
-    pub fn exec(&self) -> serde_json::Result<GetIdInfoResponse> {
+    pub fn exec(&self) -> ::Result<GetIdInfoResponse> {
         let result = <Self as TradeApi>::exec(&self)?;
-        serde_json::from_value(result["user"].clone())
+        Ok(serde_json::from_value(result["user"].clone())?)
     }
 }
 

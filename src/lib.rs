@@ -4,10 +4,12 @@ extern crate serde_derive;
 #[macro_use]
 mod builder;
 mod core;
+mod error;
 
 pub mod public_api;
 pub mod trade_api;
 
+pub use error::{Error, Result};
 pub use core::AccessKey;
 
 #[cfg(test)]

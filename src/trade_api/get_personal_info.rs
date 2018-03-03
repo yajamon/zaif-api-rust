@@ -11,8 +11,8 @@ builder!(GetPersonalInfoBuilder => GetPersonalInfo {
 });
 
 impl GetPersonalInfo {
-    pub fn exec(&self) -> serde_json::Result<GetPersonalInfoResponse> {
-        serde_json::from_value(<Self as TradeApi>::exec(&self)?)
+    pub fn exec(&self) -> ::Result<GetPersonalInfoResponse> {
+        Ok(serde_json::from_value(<Self as TradeApi>::exec(&self)?)?)
     }
 }
 

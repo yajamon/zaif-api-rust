@@ -8,8 +8,8 @@ builder!(LastPriceBuilder => LastPrice {
 });
 
 impl LastPrice {
-    pub fn exec(&self) -> serde_json::Result<LastPriceResponse> {
-        serde_json::from_value(<Self as PublicApi>::exec(&self)?)
+    pub fn exec(&self) -> ::Result<LastPriceResponse> {
+        Ok(serde_json::from_value(<Self as PublicApi>::exec(&self)?)?)
     }
 }
 

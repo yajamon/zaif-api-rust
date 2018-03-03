@@ -33,8 +33,8 @@ builder!(TradeBuilder => Trade {
 });
 
 impl Trade {
-    pub fn exec(&self) -> serde_json::Result<TradeResponse> {
-        serde_json::from_value(<Self as TradeApi>::exec(&self)?)
+    pub fn exec(&self) -> ::Result<TradeResponse> {
+        Ok(serde_json::from_value(<Self as TradeApi>::exec(&self)?)?)
     }
 }
 
