@@ -1,5 +1,3 @@
 {
-    "rust-client.rls-name": "rls-preview",
-    "rust-client.channel": "beta",
     "editor.formatOnSave": true
 }
