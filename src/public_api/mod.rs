@@ -1,5 +1,5 @@
-extern crate reqwest;
-extern crate serde_json;
+
+use serde_json;
 
 use self::serde_json::Value;
 

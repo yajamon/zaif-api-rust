@@ -1,5 +1,5 @@
-extern crate reqwest;
-extern crate serde_json;
+use reqwest;
+use serde_json;
 
 
 

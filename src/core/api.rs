@@ -1,6 +1,6 @@
-extern crate chrono;
-extern crate openssl;
-extern crate reqwest;
+use chrono;
+use openssl;
+use reqwest;
 
 use self::reqwest::header::Headers;
 use self::chrono::Utc;
