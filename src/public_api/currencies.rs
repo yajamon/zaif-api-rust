@@ -1,6 +1,8 @@
 //! #Examples
 //!
 //! ```
+//! use zaif_api::public_api::*;
+//!
 //! let api = CurrenciesBuilder::new().name("btc".to_string()).finalize();
 //! for currency in api.exec().unwrap() {
 //!     println!("name: {} is_token: {}", currency.name, currency.is_token);
