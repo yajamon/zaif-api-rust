@@ -2,7 +2,7 @@ extern crate serde_json;
 extern crate zaif_api;
 
 use std::{env, thread, time};
-use serde_json::Value;
+
 
 use zaif_api::AccessKey;
 use zaif_api::public_api::*;

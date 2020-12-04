@@ -1,14 +1,14 @@
 extern crate serde;
 extern crate serde_json;
 
-use public_api::PublicApi;
+use crate::public_api::PublicApi;
 
 builder!(DepthBuilder => Depth {
     currency_pair: String = "btc_jpy".to_string()
 });
 
 impl Depth {
-    pub fn exec(&self) -> ::Result<DepthResponse> {
+    pub fn exec(&self) -> crate::Result<DepthResponse> {
         Ok(serde_json::from_value(<Self as PublicApi>::exec(&self)?)?)
     }
 }

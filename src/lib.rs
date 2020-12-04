@@ -9,8 +9,8 @@ mod error;
 pub mod public_api;
 pub mod trade_api;
 
-pub use error::{Error, Result};
-pub use core::AccessKey;
+pub use crate::error::{Error, Result};
+pub use crate::core::AccessKey;
 
 #[cfg(test)]
 mod tests {

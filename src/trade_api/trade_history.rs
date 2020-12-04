@@ -3,8 +3,8 @@ extern crate serde_json;
 
 use std::collections::HashMap;
 
-use trade_api::TradeApi;
-use core::AccessKey;
+use crate::trade_api::TradeApi;
+use crate::core::AccessKey;
 
 #[derive(Copy, Clone)]
 pub enum TradeHistoryOrder {
@@ -33,7 +33,7 @@ builder!(TradeHistoryBuilder => TradeHistory {
 });
 
 impl TradeHistory {
-    pub fn exec(&self) -> ::Result<HashMap<u64, TradeHistoryResponse>> {
+    pub fn exec(&self) -> crate::Result<HashMap<u64, TradeHistoryResponse>> {
         Ok(serde_json::from_value(<Self as TradeApi>::exec(&self)?)?)
     }
 }

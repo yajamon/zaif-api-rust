@@ -3,15 +3,15 @@ extern crate serde_json;
 
 use std::collections::HashMap;
 
-use trade_api::TradeApi;
-use core::AccessKey;
+use crate::trade_api::TradeApi;
+use crate::core::AccessKey;
 
 builder!(GetIdInfoBuilder => GetIdInfo {
     access_key: AccessKey = AccessKey::new("", "")
 });
 
 impl GetIdInfo {
-    pub fn exec(&self) -> ::Result<GetIdInfoResponse> {
+    pub fn exec(&self) -> crate::Result<GetIdInfoResponse> {
         let result = <Self as TradeApi>::exec(&self)?;
         Ok(serde_json::from_value(result["user"].clone())?)
     }

@@ -3,8 +3,8 @@ extern crate serde_json;
 
 use std::collections::HashMap;
 
-use trade_api::TradeApi;
-use core::AccessKey;
+use crate::trade_api::TradeApi;
+use crate::core::AccessKey;
 
 #[derive(Copy, Clone)]
 pub enum TradeAction {
@@ -33,7 +33,7 @@ builder!(TradeBuilder => Trade {
 });
 
 impl Trade {
-    pub fn exec(&self) -> ::Result<TradeResponse> {
+    pub fn exec(&self) -> crate::Result<TradeResponse> {
         Ok(serde_json::from_value(<Self as TradeApi>::exec(&self)?)?)
     }
 }

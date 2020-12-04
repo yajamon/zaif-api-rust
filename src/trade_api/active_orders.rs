@@ -3,8 +3,8 @@ extern crate serde_json;
 
 use std::collections::HashMap;
 
-use trade_api::TradeApi;
-use core::AccessKey;
+use crate::trade_api::TradeApi;
+use crate::core::AccessKey;
 
 builder!(ActiveOrdersBuilder => ActiveOrders {
     access_key: AccessKey = AccessKey::new("", ""),
@@ -12,7 +12,7 @@ builder!(ActiveOrdersBuilder => ActiveOrders {
 });
 
 impl ActiveOrders {
-    pub fn exec(&self) -> ::Result<HashMap<u64, ActiveOrdersResponse>> {
+    pub fn exec(&self) -> crate::Result<HashMap<u64, ActiveOrdersResponse>> {
         Ok(serde_json::from_value(<Self as TradeApi>::exec(&self)?)?)
     }
 }

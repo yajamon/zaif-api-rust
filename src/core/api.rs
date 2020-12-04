@@ -10,7 +10,7 @@ use self::openssl::sign::Signer;
 
 use std::collections::HashMap;
 
-use core::{AccessKey, Method};
+use crate::core::{AccessKey, Method};
 
 pub struct Api {
     uri: String,
@@ -20,20 +20,20 @@ pub struct Api {
 }
 
 impl Api {
-    pub fn exec(&self) -> ::Result<String> {
+    pub fn exec(&self) -> crate::Result<String> {
         match self.method {
             Method::Get => self.get(),
             Method::Post => self.post(),
         }
     }
 
-    fn get(&self) -> ::Result<String> {
+    fn get(&self) -> crate::Result<String> {
         let resp = reqwest::get(self.uri.as_str())?;
 
         Ok(resp.error_for_status()?.text()?)
     }
 
-    fn post(&self) -> ::Result<String> {
+    fn post(&self) -> crate::Result<String> {
         // body生成
         let body = self.create_body();
         let access_key = self.access_key
@@ -71,7 +71,7 @@ impl Api {
         }
         body.clone()
     }
-    fn create_sign(body: &str, access_key: &AccessKey) -> ::Result<String> {
+    fn create_sign(body: &str, access_key: &AccessKey) -> crate::Result<String> {
         // Resultを返してくる
         let sign_err = "sign生成に失敗しました".to_string();
         // Errだった場合にErr(String)にしてあげたい。

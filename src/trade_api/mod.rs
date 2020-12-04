@@ -4,7 +4,7 @@ extern crate serde_json;
 use std::collections::HashMap;
 use self::serde_json::Value;
 
-use core::*;
+use crate::core::*;
 
 pub use self::get_info2::*;
 pub use self::get_personal_info::*;
@@ -27,7 +27,7 @@ trait TradeApi {
     fn parameters(&self) -> HashMap<String, String>;
     fn access_key(&self) -> &AccessKey;
 
-    fn exec(&self) -> ::Result<Value> {
+    fn exec(&self) -> crate::Result<Value> {
         let mut param = self.parameters().clone();
         param.insert("method".to_string(), self.method().to_string());
 

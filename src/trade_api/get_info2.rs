@@ -3,15 +3,15 @@ extern crate serde_json;
 
 use std::collections::HashMap;
 
-use trade_api::TradeApi;
-use core::AccessKey;
+use crate::trade_api::TradeApi;
+use crate::core::AccessKey;
 
 builder!(GetInfo2Builder => GetInfo2 {
     access_key: AccessKey = AccessKey::new("", "")
 });
 
 impl GetInfo2 {
-    pub fn exec(&self) -> ::Result<GetInfo2Response> {
+    pub fn exec(&self) -> crate::Result<GetInfo2Response> {
         Ok(serde_json::from_value(<Self as TradeApi>::exec(&self)?)?)
     }
 }

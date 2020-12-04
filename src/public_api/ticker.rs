@@ -1,14 +1,14 @@
 extern crate serde;
 extern crate serde_json;
 
-use public_api::PublicApi;
+use crate::public_api::PublicApi;
 
 builder!(TickerBuilder => Ticker {
     currency_pair: String = "btc_jpy".to_string()
 });
 
 impl Ticker {
-    pub fn exec(&self) -> ::Result<TickerResponse> {
+    pub fn exec(&self) -> crate::Result<TickerResponse> {
         Ok(serde_json::from_value(<Self as PublicApi>::exec(&self)?)?)
     }
 }

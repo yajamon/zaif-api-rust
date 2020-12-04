@@ -1,14 +1,14 @@
 extern crate serde;
 extern crate serde_json;
 
-use public_api::PublicApi;
+use crate::public_api::PublicApi;
 
 builder!(CurrencyPairsBuilder => CurrencyPairs {
     currency_pair: String = "all".to_string()
 });
 
 impl CurrencyPairs {
-    pub fn exec(&self) -> ::Result<Vec<CurrencyPairsResponse>> {
+    pub fn exec(&self) -> crate::Result<Vec<CurrencyPairsResponse>> {
         Ok(serde_json::from_value(<Self as PublicApi>::exec(&self)?)?)
     }
 }

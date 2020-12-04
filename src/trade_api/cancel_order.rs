@@ -3,8 +3,8 @@ extern crate serde_json;
 
 use std::collections::HashMap;
 
-use trade_api::TradeApi;
-use core::AccessKey;
+use crate::trade_api::TradeApi;
+use crate::core::AccessKey;
 
 builder!(CancelOrderBuilder => CancelOrder {
     access_key: AccessKey = AccessKey::new("", ""),
@@ -13,7 +13,7 @@ builder!(CancelOrderBuilder => CancelOrder {
 });
 
 impl CancelOrder {
-    pub fn exec(&self) -> ::Result<CancelOrderResponse> {
+    pub fn exec(&self) -> crate::Result<CancelOrderResponse> {
         Ok(serde_json::from_value(<Self as TradeApi>::exec(&self)?)?)
     }
 }
