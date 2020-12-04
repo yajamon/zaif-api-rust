@@ -2,11 +2,11 @@ use chrono;
 use openssl;
 use reqwest;
 
-use self::reqwest::header::Headers;
 use self::chrono::Utc;
 use self::openssl::hash::MessageDigest;
 use self::openssl::pkey::PKey;
 use self::openssl::sign::Signer;
+use self::reqwest::header::Headers;
 
 use std::collections::HashMap;
 
@@ -36,7 +36,8 @@ impl Api {
     fn post(&self) -> crate::Result<String> {
         // body生成
         let body = self.create_body();
-        let access_key = self.access_key
+        let access_key = self
+            .access_key
             .clone()
             .ok_or("AccessKeyが必要です。".to_string())?;
         let sign = Api::create_sign(body.as_str(), &access_key)?;

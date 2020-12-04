@@ -1,12 +1,8 @@
-
-
-
 use std::{env, thread, time};
 
-
-use zaif_api::AccessKey;
 use zaif_api::public_api::*;
 use zaif_api::trade_api::*;
+use zaif_api::AccessKey;
 
 fn put_help() {
     let s = "
@@ -130,7 +126,8 @@ fn call_trade(access_key: &AccessKey) {
         .price(1.0)
         .amount(0.1)
         .finalize();
-    match api.exec()
+    match api
+        .exec()
         .and_then(|res| {
             println!(
                 "received: {}, remains: {}, order_id: {}",

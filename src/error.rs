@@ -1,8 +1,6 @@
 use reqwest;
 use serde_json;
 
-
-
 #[derive(Debug)]
 pub enum Error {
     ReqwestError(reqwest::Error),

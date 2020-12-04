@@ -1,25 +1,24 @@
-
 use serde_json;
 
-use std::collections::HashMap;
 use self::serde_json::Value;
+use std::collections::HashMap;
 
 use crate::core::*;
 
-pub use self::get_info2::*;
-pub use self::get_personal_info::*;
-pub use self::get_id_info::*;
-pub use self::trade::*;
 pub use self::active_orders::*;
 pub use self::cancel_order::*;
+pub use self::get_id_info::*;
+pub use self::get_info2::*;
+pub use self::get_personal_info::*;
+pub use self::trade::*;
 pub use self::trade_history::*;
 
-mod get_info2;
-mod get_personal_info;
-mod get_id_info;
-mod trade;
 mod active_orders;
 mod cancel_order;
+mod get_id_info;
+mod get_info2;
+mod get_personal_info;
+mod trade;
 mod trade_history;
 
 trait TradeApi {

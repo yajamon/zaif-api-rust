@@ -1,8 +1,8 @@
-pub use self::api::*;
 pub use self::access_key::*;
+pub use self::api::*;
 
-mod api;
 mod access_key;
+mod api;
 
 #[derive(Copy, Clone)]
 pub enum Method {

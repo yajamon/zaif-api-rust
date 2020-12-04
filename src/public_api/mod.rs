@@ -1,4 +1,3 @@
-
 use serde_json;
 
 use self::serde_json::Value;
@@ -7,17 +6,17 @@ use crate::core::*;
 
 pub use self::currencies::*;
 pub use self::currency_pairs::*;
-pub use self::last_price::*;
 pub use self::depth::*;
-pub use self::trades::*;
+pub use self::last_price::*;
 pub use self::ticker::*;
+pub use self::trades::*;
 
 mod currencies;
 mod currency_pairs;
-mod last_price;
 mod depth;
-mod trades;
+mod last_price;
 mod ticker;
+mod trades;
 
 trait PublicApi {
     fn action(&self) -> &str;

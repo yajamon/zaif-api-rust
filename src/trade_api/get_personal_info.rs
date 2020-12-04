@@ -1,10 +1,9 @@
-
 use serde_json;
 
 use std::collections::HashMap;
 
-use crate::trade_api::TradeApi;
 use crate::core::AccessKey;
+use crate::trade_api::TradeApi;
 
 builder!(GetPersonalInfoBuilder => GetPersonalInfo {
     access_key: AccessKey = AccessKey::new("", "")
